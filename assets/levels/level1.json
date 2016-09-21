@@ -29,9 +29,9 @@
             "type": "score",
             "position": {"x": 0.05, "y": 0.05},
             "properties": {
-                "text": "Fruits: ", 
+                "text": "Fruits: ",
                 "style": {
-                    "font": "48px Arial", 
+                    "font": "48px Arial",
                     "fill": "#fff"
                 },
                 "group": "hud"
@@ -41,9 +41,9 @@
             "type": "lives",
             "position": {"x": 0.8, "y": 0.05},
             "properties": {
-                "texture": "sword_image", 
-                "group": "hud", 
-                "lives": 3, 
+                "texture": "sword_image",
+                "group": "hud",
+                "lives": 3,
                 "lives_spacing": 50
             }
         },
@@ -55,7 +55,7 @@
                 "group": "spawners",
                 "pool": "fruits",
                 "spawn_time": {"min": 1, "max": 3},
-                "position_x": {"min": 0.2, "max": 0.8,
+                "position_x": {"min": 0.2, "max": 0.8},
                 "position_y": {"min": 1, "max": 1},
                 "velocity_x": {"min": -100, "max": 100},
                 "velocity_y": {"min": 850, "max": 1000},
@@ -70,7 +70,7 @@
                 "group": "spawners",
                 "pool": "bombs",
                 "spawn_time": {"min": 1, "max": 3},
-                "position_x": {"min": 0.2, "max": 0.8,
+                "position_x": {"min": 0.2, "max": 0.8},
                 "position_y": {"min": 1, "max": 1},
                 "velocity_x": {"min": -100, "max": 100},
                 "velocity_y": {"min": 850, "max": 1000}
@@ -84,7 +84,7 @@
                 "group": "spawners",
                 "pool": "special_fruits",
                 "spawn_time": {"min": 5, "max": 10},
-                "position_x": {"min": 0.2, "max": 0.8,
+                "position_x": {"min": 0.2, "max": 0.8},
                 "position_y": {"min": 1, "max": 1},
                 "velocity_x": {"min": -100, "max": 100},
                 "velocity_y": {"min": 850, "max": 1000}
@@ -101,7 +101,7 @@
                     "text": "",
                     "group": "hud",
                     "style": {
-                        "font": "32px Arial", 
+                        "font": "32px Arial",
                         "fill": "#fff"
                     },
                     "anchor": {"x": 0.5, "y": 0.5}
