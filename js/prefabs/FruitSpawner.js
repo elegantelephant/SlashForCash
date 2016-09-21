@@ -3,7 +3,7 @@ var FruitNinja = FruitNinja || {};
 FruitNinja.FruitSpawner = function (game_state, name, position, properties) {
     "use strict";
     FruitNinja.Spawner.call(this, game_state, name, position, properties);
-    
+
     this.frames = properties.frames;
 };
 
