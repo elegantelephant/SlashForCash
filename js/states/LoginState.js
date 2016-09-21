@@ -62,7 +62,7 @@ FruitNinja.LoginState.prototype.getPassword = function () {
     return this.password;
 };
 
-FruitNinja.LoginState.prototype.on_login = function (error, auth_data) {
+FruitNinja.LoginState.prototype.on_login = function (error, user) {
     "use strict";
     if (error) {
         if (error.code === "auth/user-not-found") {
@@ -78,7 +78,7 @@ FruitNinja.LoginState.prototype.on_login = function (error, auth_data) {
             console.log(error.message + ' (' + error.code + ')');
         }
     } else {
-        database.child("players").child(auth_data.uid).once("value", this.save_player_data.bind(this));
+        database.child("players").child(user.uid).once("value").then(this.save_player_data.bind(this));
     }
 };
 
@@ -94,6 +94,7 @@ FruitNinja.LoginState.prototype.on_create_user = function (error, user_data) {
 FruitNinja.LoginState.prototype.save_player_data = function (snapshot) {
     "use strict";
     var player_data;
+
     player_data = snapshot.val();
     if (player_data) {
         this.game.player_name = player_data.name;
@@ -103,7 +104,7 @@ FruitNinja.LoginState.prototype.save_player_data = function (snapshot) {
         this.game.player_name = this.email.replace(/@.*/, '');
         this.game.money = 0;
         this.game.max_score = 0;
-        database.child("players").child(snapshot.key()).set({name: this.game.player_name, money: this.game.money, max_score: this.game.max_score});
+        database.child("players").child(snapshot.key).set({name: this.game.player_name, money: this.game.money, max_score: this.game.max_score});
     }
 
     this.game.state.start("BootState", true, false, "assets/levels/title_screen.json", "TitleState");
