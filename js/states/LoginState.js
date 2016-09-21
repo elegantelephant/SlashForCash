@@ -34,8 +34,8 @@ FruitNinja.LoginState.prototype.attempt_login = function () {
     var password = this.setPassword(this.prefabs.password_input.player_input.text);
 
     firebase.auth().signInWithEmailAndPassword(email, password)
-        .then((function() {
-            console.log(arguments);
+        .then((function(user) {
+            this.on_login(null, user);
         }).bind(this))
         .catch((function(error) {
             this.on_login(error)
