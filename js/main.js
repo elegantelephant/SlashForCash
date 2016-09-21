@@ -1,6 +1,8 @@
 var FruitNinja = FruitNinja || {};
 
-var database = new Firebase("https://crackling-torch-4365.firebaseio.com");
+// Initialize Firebase
+firebase.initializeApp(getConfig().firebase);
+var database = firebase.database().ref();
 
 var game = new Phaser.Game("100%", "100%", Phaser.CANVAS);
 game.state.add("BootState", new FruitNinja.BootState());

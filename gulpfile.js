@@ -1,12 +1,13 @@
-var GULP       = require('gulp'),
-    NODEMON    = require('gulp-nodemon');
+var GULP       = require("gulp"),
+    NODEMON    = require("gulp-nodemon");
 
-GULP.task('serve', [], function() {
+//server related
+GULP.task("serve", [], function() {
     return NODEMON({
-        script: 'server/index.js',
-        ext: 'js html',
-        env: { 'NODE_ENV': 'development' }
+        script: "server/index.js",
+        ext: "js html",
+        env: { "NODE_ENV": "development" }
     });
 });
 
-GULP.task('default', ['serve'], function() {});
+GULP.task("default", ['serve'], function() {});

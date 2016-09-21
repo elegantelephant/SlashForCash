@@ -3,7 +3,7 @@ var FruitNinja = FruitNinja || {};
 FruitNinja.LoginState = function () {
     "use strict";
     FruitNinja.JSONLevelState.call(this);
-    
+
     this.prefab_classes = {
         "background": FruitNinja.Prefab.prototype.constructor,
         "title": FruitNinja.TextPrefab.prototype.constructor,
@@ -18,7 +18,7 @@ FruitNinja.LoginState.prototype.constructor = FruitNinja.LoginState;
 FruitNinja.LoginState.prototype.create = function () {
     "use strict";
     FruitNinja.JSONLevelState.prototype.create.call(this);
-    
+
     this.game.input.keyboard.addCallbacks(this, null, null, this.save_player_input);
     this.current_player_input = this.prefabs.email_input.player_input;
 };
@@ -30,18 +30,49 @@ FruitNinja.LoginState.prototype.save_player_input = function (char) {
 
 FruitNinja.LoginState.prototype.attempt_login = function () {
     "use strict";
-    this.email = this.prefabs.email_input.player_input.text;
-    this.password = this.prefabs.password_input.player_input.text;
-    database.authWithPassword({email: this.email, password: this.password}, this.on_login.bind(this));
+    var email    = this.setEmail(this.prefabs.email_input.player_input.text);
+    var password = this.setPassword(this.prefabs.password_input.player_input.text);
+
+    firebase.auth().signInWithEmailAndPassword(email, password)
+        .then((function() {
+            console.log(arguments);
+        }).bind(this))
+        .catch((function(error) {
+            this.on_login(error)
+        }).bind(this));
+};
+
+FruitNinja.LoginState.prototype.setEmail = function (email) {
+    "use strict";
+    this.email = email.replace(/\s/,'');
+    return this.email;
+};
+
+FruitNinja.LoginState.prototype.getEmail = function () {
+    return this.email;
+};
+
+FruitNinja.LoginState.prototype.setPassword = function (password) {
+    "use strict";
+    this.password = password.replace(/\s/,'');
+    return this.password;
+};
+
+FruitNinja.LoginState.prototype.getPassword = function () {
+    return this.password;
 };
 
 FruitNinja.LoginState.prototype.on_login = function (error, auth_data) {
     "use strict";
     if (error) {
-        console.log(error);
-        console.log(auth_data);
-        if (error.code === "INVALID_USER") {
-            database.createUser({email: this.email, password: this.password}, this.on_create_user.bind(this));
+        if (error.code === "auth/invalid-email") {
+            firebase.auth().createUserWithEmailAndPassword(this.getEmail(), this.getPassword())
+                .then((function(user) {
+                    this.on_create_user(null,user);
+                }).bind(this))
+                .catch((function(error) {
+                    this.on_create_user(error,null);
+                }).bind(this));
         }
     } else {
         database.child("players").child(auth_data.uid).once("value", this.save_player_data.bind(this));
@@ -51,7 +82,7 @@ FruitNinja.LoginState.prototype.on_login = function (error, auth_data) {
 FruitNinja.LoginState.prototype.on_create_user = function (error, user_data) {
     "use strict";
     if (error) {
-        console.log(error);
+        console.log(error.message + ' (' + error.code + ')');
     } else {
         this.attempt_login(this.email, this.password);
     }
@@ -71,6 +102,6 @@ FruitNinja.LoginState.prototype.save_player_data = function (snapshot) {
         this.game.max_score = 0;
         database.child("players").child(snapshot.key()).set({name: this.game.player_name, money: this.game.money, max_score: this.game.max_score});
     }
-    
+
     this.game.state.start("BootState", true, false, "assets/levels/title_screen.json", "TitleState");
 };
