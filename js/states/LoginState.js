@@ -65,7 +65,7 @@ FruitNinja.LoginState.prototype.getPassword = function () {
 FruitNinja.LoginState.prototype.on_login = function (error, auth_data) {
     "use strict";
     if (error) {
-        if (error.code === "auth/invalid-email") {
+        if (error.code === "auth/user-not-found") {
             firebase.auth().createUserWithEmailAndPassword(this.getEmail(), this.getPassword())
                 .then((function(user) {
                     this.on_create_user(null,user);
@@ -73,6 +73,9 @@ FruitNinja.LoginState.prototype.on_login = function (error, auth_data) {
                 .catch((function(error) {
                     this.on_create_user(error,null);
                 }).bind(this));
+        }
+        else {
+            console.log(error.message + ' (' + error.code + ')');
         }
     } else {
         database.child("players").child(auth_data.uid).once("value", this.save_player_data.bind(this));
