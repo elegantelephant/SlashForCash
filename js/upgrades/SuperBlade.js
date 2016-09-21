@@ -11,5 +11,5 @@ FruitNinja.SuperBlade.prototype.constructor = FruitNinja.SuperBlade;
 
 FruitNinja.SuperBlade.prototype.apply = function () {
     "use strict";
-    this.game_state.cut_multiplier = this.cut_multiplier;
+    this.game_state.cut_multiplier += this.cut_multiplier;
 };

@@ -35,6 +35,5 @@ FruitNinja.UpgradeItem.prototype.select = function () {
     if (!this.selected && this.game_state.game.money >= this.price) {
         this.game_state.game.money -= this.price;
         this.game_state.game.current_upgrades.push({type: this.upgrade_type, properties: this.upgrade_properties});
-        this.selected = true;
     }
 };

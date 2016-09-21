@@ -8,11 +8,11 @@ FruitNinja.Lives = function (game_state, name, position, properties) {
     this.visible = false;
     
     this.lives_spacing = properties.lives_spacing;
-    
-    this.lives = properties.lives;
+    this.lives = 0; 
+    this.lives_to_add = properties.lives;
     this.lives_sprites = [];
     // create a sprite for each life
-    this.add_lives(this.lives);
+    this.add_lives(this.lives_to_add);
 };
 
 FruitNinja.Lives.prototype = Object.create(FruitNinja.Prefab.prototype);
@@ -38,5 +38,6 @@ FruitNinja.Lives.prototype.add_lives = function (number_of_lives) {
         life = new Phaser.Sprite(this.game_state.game, this.position.x + ((this.lives_sprites.length - 1) * this.lives_spacing), this.position.y, this.texture);
         this.lives_sprites.push(life);
         this.game_state.groups.hud.add(life);
+        this.lives += 1;
     }
 };

@@ -52,7 +52,7 @@
                 "description": "A super blade that gives one\n extra point for each fruit",
                 "price": 100,
                 "upgrade_type": "super_blade",
-                "upgrade_properties": {"cut_multiplier": 2}
+                "upgrade_properties": {"cut_multiplier": 1}
             }
         },
         "extra_blade": {
