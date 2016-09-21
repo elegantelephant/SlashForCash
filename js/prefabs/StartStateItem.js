@@ -3,7 +3,7 @@ var FruitNinja = FruitNinja || {};
 FruitNinja.StartStateItem = function (game_state, name, position, properties) {
     "use strict";
     FruitNinja.MenuItem.call(this, game_state, name, position, properties);
-    
+
     this.level_file = properties.level_file;
     this.state_name = properties.state_name;
 };
