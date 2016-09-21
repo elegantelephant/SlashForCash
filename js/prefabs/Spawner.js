@@ -31,7 +31,7 @@ FruitNinja.Spawner.prototype.spawn = function () {
     "use strict";
     var object_name, object_position, object, object_velocity;
     // get new random position and velocity
-    object_position = new Phaser.Point(this.game_state.rnd.between(0.2 * this.game_state.game.world.width, 0.8 * this.game_state.game.world.width), this.game_state.game.world.height);
+    object_position = this.object_position();
     object_velocity = this.object_velocity();
     // get first dead object from the pool
     object = this.pool.getFirstDead();
@@ -46,6 +46,15 @@ FruitNinja.Spawner.prototype.spawn = function () {
     
     // schedule next spawn
     this.schedule_spawn();
+};
+
+FruitNinja.Spawner.prototype.object_position = function () {
+    "use strict";
+    var position_x, position_y;
+    // generate random position inside a range
+    position_x = this.game_state.rnd.between(this.position_x.min * this.game_state.game.world.width, this.position_x.max * this.game_state.game.world.width);
+    position_y = this.game_state.rnd.between(this.position_y.min * this.game_state.game.world.height, this.position_y.max * this.game_state.game.world.height);
+    return new Phaser.Point(position_x, position_y);
 };
 
 FruitNinja.Spawner.prototype.object_velocity = function () {

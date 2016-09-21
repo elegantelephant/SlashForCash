@@ -68,6 +68,19 @@
                 "upgrade_properties": {"number_of_blades": 1}
             }
         },
+        "leave_store": {
+            "type": "start_state_item",
+            "position": {"x": 0.3, "y": 0.7},
+            "properties": {
+                "text": "Leave Store",
+                "style": {"font": "32px Arial", "fill": "#FFF"},
+                "group": "menu_items",
+                "description": "I am done shopping",
+                "price": 0,
+                "level_file": "assets/levels/title_screen.json",
+                "state_name": "TitleState"
+            }
+        },
         "upgrade_description": {
             "type": "text",
             "position": {"x": 0.75, "y": 0.3},
