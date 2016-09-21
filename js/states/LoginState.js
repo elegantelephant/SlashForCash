@@ -78,7 +78,9 @@ FruitNinja.LoginState.prototype.on_login = function (error, user) {
             console.log(error.message + ' (' + error.code + ')');
         }
     } else {
-        database.child("players").child(user.uid).once("value").then(this.save_player_data.bind(this));
+        db.player.setAuthedUser(user);
+
+        db.player.info().then(this.save_player_data.bind(this));
     }
 };
 
@@ -104,7 +106,8 @@ FruitNinja.LoginState.prototype.save_player_data = function (snapshot) {
         this.game.player_name = this.email.replace(/@.*/, '');
         this.game.money = 0;
         this.game.max_score = 0;
-        database.child("players").child(snapshot.key).set({name: this.game.player_name, money: this.game.money, max_score: this.game.max_score});
+
+        db.player.setInfo({name: this.game.player_name, money: this.game.money, max_score: this.game.max_score});
     }
 
     this.game.state.start("BootState", true, false, "assets/levels/title_screen.json", "TitleState");

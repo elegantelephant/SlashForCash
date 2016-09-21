@@ -81,11 +81,11 @@ FruitNinja.LevelState.prototype.check_collision = function (object) {
 
 FruitNinja.LevelState.prototype.game_over = function () {
     "use strict";
-    var auth_data;
+
     this.game.money += this.score;
     this.game.max_score = Math.max(this.game.max_score, this.score);
-    auth_data = firebase.auth().currentUser;
-    database.child("players").child(auth_data.uid).set({name: this.game.player_name, money: this.game.money, max_score: this.game.max_score}, this.show_leaderboard.bind(this));
+
+    db.player.setInfo({name: this.game.player_name, money: this.game.money, max_score: this.game.max_score}).then(this.show_leaderboard.bind(this));
 };
 
 FruitNinja.LevelState.prototype.show_leaderboard = function () {

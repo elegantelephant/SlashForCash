@@ -1,8 +1,9 @@
 var FruitNinja = FruitNinja || {};
 
-// Initialize Firebase
-firebase.initializeApp(getConfig().firebase);
-var database = firebase.database().ref();
+//setup db models
+var db = new DB();
+db.addModel('player', PlayerModel);
+db.addModel('allPlayers', AllPlayersModel);
 
 var game = new Phaser.Game("100%", "100%", Phaser.CANVAS);
 game.state.add("BootState", new FruitNinja.BootState());

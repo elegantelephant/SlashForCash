@@ -4,12 +4,12 @@ FruitNinja.Leaderboard = function (game_state, name, position, properties) {
     "use strict";
     var score_index, score_position, score;
     FruitNinja.Prefab.call(this, game_state, name, position, properties);
-    
+
     this.number_of_scores = properties.number_of_scores;
     this.scores_spacing = properties.scores_spacing;
     this.text_properties = properties.text_properties;
-    
-    this.scores = [];    
+
+    this.scores = [];
 };
 
 FruitNinja.Leaderboard.prototype = Object.create(FruitNinja.Prefab.prototype);
@@ -18,8 +18,8 @@ FruitNinja.Leaderboard.prototype.constructor = FruitNinja.Leaderboard;
 FruitNinja.Leaderboard.prototype.show_leaderboard = function () {
     "use strict";
 
-    database.child("players").orderByChild("max_score").limitToLast(this.number_of_scores).on("child_added", this.update_leaderboard.bind(this));
-    
+    db.allPlayers.getHighScores(this.number_of_scores).on("child_added", this.update_leaderboard.bind(this));
+
     this.game_state.game.input.keyboard.addCallbacks(this, this.process_keyboard);
 };
 
