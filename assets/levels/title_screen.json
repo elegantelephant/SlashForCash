@@ -1,6 +1,8 @@
 {
     "assets": {
-        "background_image": {"type": "image", "source": "assets/images/background.png"}
+        "background_image": {
+            "type": "image",
+            "source": "assets/images/SideBoat.png"}
     },
     "groups": [
         "background",
@@ -10,10 +12,11 @@
     "prefabs": {
         "background": {
             "type": "background",
-            "position": {"x": 0, "y": 0},
+            "position": {"x": 0.5, "y": 0.5},
             "properties": {
                 "texture": "background_image",
-                "group": "background"
+                "group": "background",
+                "anchor": {"x": 0.5, "y": 0.5}
             }
         },
         "title": {

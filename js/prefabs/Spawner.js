@@ -8,6 +8,8 @@ FruitNinja.Spawner = function (game_state, name, position, properties) {
     
     this.spawn_time = properties.spawn_time;
     
+    this.position_x = properties.position_x;
+    this.position_y = properties.position_y;
     this.velocity_x = properties.velocity_x;
     this.velocity_y = properties.velocity_y;
     
