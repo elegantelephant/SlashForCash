@@ -4,6 +4,8 @@ FruitNinja.LoginState = function () {
     "use strict";
     FruitNinja.JSONLevelState.call(this);
 
+    this.config = getConfig();
+
     this.prefab_classes = {
         "background": FruitNinja.Prefab.prototype.constructor,
         "title": FruitNinja.TextPrefab.prototype.constructor,
@@ -33,13 +35,22 @@ FruitNinja.LoginState.prototype.attempt_login = function () {
     var email    = this.setEmail(this.prefabs.email_input.player_input.text);
     var password = this.setPassword(this.prefabs.password_input.player_input.text);
 
-    firebase.auth().signInWithEmailAndPassword(email, password)
-        .then((function(user) {
-            this.on_login(null, user);
-        }).bind(this))
-        .catch((function(error) {
-            this.on_login(error)
-        }).bind(this));
+    if (this.config.mock) {
+        this.on_login(null, {
+            name: "Mock Player",
+            money: 1000,
+            max_score: 0
+        });
+    }
+    else {
+        firebase.auth().signInWithEmailAndPassword(email, password)
+            .then((function(user) {
+                this.on_login(null, user);
+            }).bind(this))
+            .catch((function(error) {
+                this.on_login(error)
+            }).bind(this));
+    }
 };
 
 FruitNinja.LoginState.prototype.setEmail = function (email) {
@@ -78,9 +89,14 @@ FruitNinja.LoginState.prototype.on_login = function (error, user) {
             console.log(error.message + ' (' + error.code + ')');
         }
     } else {
-        db.player.setAuthedUser(user);
+        if (! this.config.mock) {
+            db.player.setAuthedUser(user);
 
-        db.player.info().then(this.save_player_data.bind(this));
+            db.player.info().then(this.save_player_data.bind(this));
+        }
+        else {
+            this.save_player_data(user);
+        }
     }
 };
 
@@ -97,7 +113,8 @@ FruitNinja.LoginState.prototype.save_player_data = function (snapshot) {
     "use strict";
     var player_data;
 
-    player_data = snapshot.val();
+    player_data = this.config.mock ? snapshot : snapshot.val();
+
     if (player_data) {
         this.game.player_name = player_data.name;
         this.game.money = player_data.money;
@@ -107,7 +124,9 @@ FruitNinja.LoginState.prototype.save_player_data = function (snapshot) {
         this.game.money = 0;
         this.game.max_score = 0;
 
-        db.player.setInfo({name: this.game.player_name, money: this.game.money, max_score: this.game.max_score});
+        if (! this.config.mock) {
+            db.player.setInfo({name: this.game.player_name, money: this.game.money, max_score: this.game.max_score});
+        }
     }
 
     this.game.state.start("BootState", true, false, "assets/levels/title_screen.json", "TitleState");

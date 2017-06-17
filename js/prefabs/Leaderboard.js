@@ -2,6 +2,8 @@ var FruitNinja = FruitNinja || {};
 
 FruitNinja.Leaderboard = function (game_state, name, position, properties) {
     "use strict";
+    this.config = getConfig();
+
     var score_index, score_position, score;
     FruitNinja.Prefab.call(this, game_state, name, position, properties);
 
@@ -18,7 +20,9 @@ FruitNinja.Leaderboard.prototype.constructor = FruitNinja.Leaderboard;
 FruitNinja.Leaderboard.prototype.show_leaderboard = function () {
     "use strict";
 
-    db.allPlayers.getHighScores(this.number_of_scores).on("child_added", this.update_leaderboard.bind(this));
+    if (!this.config.mock) { 
+        db.allPlayers.getHighScores(this.number_of_scores).on("child_added", this.update_leaderboard.bind(this));
+    }
 
     this.game_state.game.input.keyboard.addCallbacks(this, this.process_keyboard);
 };

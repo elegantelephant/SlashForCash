@@ -1,10 +1,17 @@
 function DB () {
     "use strict";
 
-    //init firebase
-    firebase.initializeApp(getConfig().firebase);
+    this.config = getConfig();
 
-    this.database = firebase.database().ref();
+    if (this.config.mock) {
+        this.database = true;
+    }
+    else {
+        //init firebase
+        firebase.initializeApp(getConfig().firebase);
+
+        this.database = firebase.database().ref();
+    }
 };
 
 DB.prototype.addModel = function(key, className) {

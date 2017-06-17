@@ -4,6 +4,8 @@ FruitNinja.LevelState = function () {
     "use strict";
     Phaser.State.call(this);
 
+    this.config = getConfig();
+
     this.prefab_classes = {
         "background": FruitNinja.Prefab.prototype.constructor,
         "score": FruitNinja.Score.prototype.constructor,
@@ -85,7 +87,9 @@ FruitNinja.LevelState.prototype.game_over = function () {
     this.game.money += this.score;
     this.game.max_score = Math.max(this.game.max_score, this.score);
 
-    db.player.setInfo({name: this.game.player_name, money: this.game.money, max_score: this.game.max_score}).then(this.show_leaderboard.bind(this));
+    if (! this.config.mock) {
+        db.player.setInfo({name: this.game.player_name, money: this.game.money, max_score: this.game.max_score}).then(this.show_leaderboard.bind(this));
+    }
 };
 
 FruitNinja.LevelState.prototype.show_leaderboard = function () {

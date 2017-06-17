@@ -1,6 +1,8 @@
 function PlayerModel (database) {
     "use strict";
 
+    this.config = getConfig();
+
     this.database = database;
 };
 
@@ -47,11 +49,18 @@ PlayerModel.prototype.ref = function () {
 PlayerModel.prototype.info = function (data) {
     "use strict";
 
-    return this.database.child("players").child(this.uid()).once("value");
+    return this.config.mock ? this.mock_data : this.database.child("players").child(this.uid()).once("value");
 };
 
 PlayerModel.prototype.setInfo = function (data) {
     "use strict";
-
-    return this.database.child("players").child(this.uid()).set(data);
+   
+    var retval;
+ 
+    if (this.config.mock) {
+        retval = this.mock_data = data;
+    }
+    else {
+        retval = this.database.child("players").child(this.uid()).set(data);
+    }
 };

@@ -13,6 +13,7 @@ var getConfig = (function() {
 
     // base configuraiton goes here
     var configBase = {
+        "mock": false, // data mocking
         "firebase": {
             apiKey: "",
             authDomain: "",
