@@ -1,3 +1,4 @@
 *.swp
 node_modules
 js/config-override.js
+.DS_Store
